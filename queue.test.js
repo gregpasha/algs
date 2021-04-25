@@ -2,7 +2,7 @@ const { expect } = require("@jest/globals");
 const { createQueue } = require("./queue");
 
 describe("queue", () => {
-  it("should work!", () => {
+  it("should be able to dequeue correct value", () => {
     const queue = createQueue();
     queue.enqueue("a");
     queue.enqueue("b");

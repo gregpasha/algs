@@ -6,8 +6,12 @@ function createQueue() {
 
   return {
     enqueue: (item) => {
+      // move items from stack one to two, reversing their order
       moveItems(stackOne, stackTwo);
+      // add to stack one, which is now empty
       stackOne.push(item);
+      // move itesm from stack one back to stack two on top of new item,
+      // reversing order again back to the original
       moveItems(stackTwo, stackOne);
     },
     dequeue: () => {
