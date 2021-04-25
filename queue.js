@@ -1,11 +1,4 @@
-const queue = createQueue();
-queue.enqueue("a");
-queue.enqueue("b");
-queue.enqueue("c");
-queue.enqueue("d");
-const item = queue.dequeue();
-console.log(item);
-console.log(queue.getValue());
+const { createStack } = require("./stack");
 
 function createQueue() {
   const stackOne = createStack();
@@ -13,30 +6,12 @@ function createQueue() {
 
   return {
     enqueue: (item) => {
-      let stackOneLength = stackOne.getLength();
-      let stackTwoLength = stackTwo.getLength();
-
-      // move stackOne over to stackTwo in reverse order
-      for (let i = 0; i < stackOneLength; i++) {
-        const poppedItem = stackOne.pop();
-        stackTwo.push(poppedItem);
-      }
-
-      stackOneLength = stackOne.getLength();
-      stackTwoLength = stackTwo.getLength();
-
-      // add to stackOne, putting the new item on the bottom
+      moveItems(stackOne, stackTwo);
       stackOne.push(item);
-
-      // move from stackTwo back to StackOne, reversing order again
-      for (let i = 0; i < stackTwoLength; i++) {
-        const poppedItem = stackTwo.pop();
-        stackOne.push(poppedItem);
-      }
+      moveItems(stackTwo, stackOne);
     },
     dequeue: () => {
-      const item = stackOne.pop();
-      return item;
+      return stackOne.pop();
     },
     peek: () => {
       return stackOne.getLength() > 0 ? stackOne[0] : undefined;
@@ -44,29 +19,19 @@ function createQueue() {
     getValue: () => {
       return stackOne.getValue();
     },
-    empty: () => {},
+    empty: () => {
+      stackOne.empty();
+    },
   };
+}
 
-  function moveItems(fromStack, toStack) {
-    for (let i = 0; i < fromStack.getLength; i++) {
-      const poppedItem = fromStack.pop();
-      toStack.push(poppedItem);
-    }
-  }
-
-  function createStack() {
-    let list = [];
-    const stack = {
-      pop: () => {
-        return list.shift();
-      },
-      push: (item) => {
-        return list.unshift(item);
-      },
-      getLength: () => list.length,
-      getValue: () => list,
-    };
-    Object.defineProperty(stack, "value", { value: list, writable: false });
-    return stack;
+function moveItems(fromStack, toStack) {
+  const fromStackLength = fromStack.getLength();
+  for (let i = 0; i < fromStackLength; i++) {
+    toStack.push(fromStack.pop());
   }
 }
+
+module.exports = {
+  createQueue,
+};
