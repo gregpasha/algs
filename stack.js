@@ -15,7 +15,6 @@ function createStack() {
       list = [];
     },
   };
-  Object.defineProperty(stack, "value", { value: list, writable: false });
   return stack;
 }
 
