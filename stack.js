@@ -11,6 +11,9 @@ function createStack() {
     },
     getLength: () => list.length,
     getValue: () => list,
+    peek: () => {
+      return list.length > 0 ? list[list.length - 1] : undefined;
+    },
     empty: () => {
       list = [];
     },
